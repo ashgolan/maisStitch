@@ -1,0 +1,30 @@
+.imageHead {
+  width: 3rem;
+  padding: 0.5%;
+}
+
+@media screen and (max-width: 1000px) {
+  .imageHead {
+    width: 3rem;
+    padding: 1.2%;
+  }
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.inventory-container {
+  display: flex;
+  flex-direction: column;
+  margin: 2% auto;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+}

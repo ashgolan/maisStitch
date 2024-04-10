@@ -1,0 +1,11 @@
+.addItem_btn_btn_container {
+  display: flex;
+  justify-content: center;
+}
+
+.addItem_btn {
+  width: 5%;
+  padding: 1%;
+  cursor: pointer;
+  margin: 1% auto;
+}

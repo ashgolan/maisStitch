@@ -1,0 +1,59 @@
+@media screen and (max-width: 1000px) {
+  .title-homepage > h1 {
+    font-size: 3rem !important;
+  }
+  .title-homepage > .welcome {
+    font-size: 2rem !important;
+  }
+  .welcome > p {
+    font-size: 2rem !important;
+  }
+}
+.home-container {
+  height: 85vh;
+  /* background-image: url("/public/background4.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom; */
+}
+
+.home-container > .title-homepage {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  padding-top: 5%;
+  margin: auto;
+}
+
+.title-homepage > .welcome {
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  width: 60%;
+  border-radius: 3rem 0 3rem 0;
+  font-weight: bold;
+  flex-direction: row-reverse;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(248, 232, 232);
+  border: none;
+  margin-bottom: 1%;
+}
+.welcome > p {
+  margin: 1%;
+  font-size: 3rem;
+}
+
+a > .home-log-btn {
+  font-size: 1rem;
+  padding: 3% 0;
+  border-radius: 2rem;
+  border: none;
+  background-color: rgb(110, 53, 87);
+  color: whitesmoke;
+  width: 20rem;
+  margin-bottom: 1%;
+}

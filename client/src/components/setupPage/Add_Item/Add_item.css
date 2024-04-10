@@ -1,0 +1,46 @@
+.addItem_form {
+  width: 85%;
+  margin: 5% auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.select-product-in-add {
+  width: 22%;
+  padding: 0.3% 0;
+}
+.select-category-add {
+  width: 9%;
+  padding: 0.3% 0;
+}
+.add-row {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  border-top: 1px solid #55555533;
+  border-bottom: 1px solid #55555533;
+}
+.add-row > input {
+  text-align: right;
+  direction: rtl;
+  padding: 0.5% 1%;
+}
+.add_item {
+  margin: 0.5%;
+  font-size: 1rem;
+  border: none;
+  border-bottom: 1px solid rgb(97, 83, 81);
+  color: rgb(24, 14, 14);
+}
+.confirm_addItem,
+.remove_addItem {
+  width: 20%;
+  padding: 1%;
+  border: none;
+  background-color: rgb(9, 94, 9);
+  color: whitesmoke;
+  cursor: pointer;
+}
+.remove_addItem {
+  background-color: brown;
+}

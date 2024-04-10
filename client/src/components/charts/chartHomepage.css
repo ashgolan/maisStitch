@@ -1,0 +1,54 @@
+@media screen and (max-width: 1000px) {
+  .charts-title {
+    width: 90% !important;
+  }
+  .chart-container {
+    width: 70% !important;
+  }
+}
+@media print {
+  .downloadPdf {
+    display: none !important;
+  }
+}
+
+.charts-title {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row-reverse;
+  width: 70%;
+  margin: 1% auto;
+}
+.charts-title > button {
+  border: none;
+  background-color: lightgreen;
+  border-radius: 2rem;
+  padding: 0.5% 10%;
+  cursor: pointer;
+}
+
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  margin: auto;
+}
+.chart-container > button {
+  border: none;
+  border-radius: 2rem;
+  background-color: orangered;
+  color: white;
+  padding: 1% 20%;
+}
+.select-chart {
+  width: 40%;
+}
+.downloadPdf {
+  width: 5%;
+}
+.downloadPdf > img {
+  width: 100%;
+  cursor: pointer;
+}
