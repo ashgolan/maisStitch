@@ -43,7 +43,13 @@
   padding: 1% 20%;
 }
 .select-chart {
-  width: 40%;
+  width: 35%;
+}
+.select-client {
+  width: 25%;
+}
+.select-yearMonth {
+  width: 15%;
 }
 .downloadPdf {
   width: 5%;

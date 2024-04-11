@@ -41,7 +41,6 @@ export default function EditItem({
           itemsValues.clientName !== item.clientName ||
           itemsValues.sale !== item.sale ||
           itemsValues.discount !== item.discount ||
-          itemsValues.expenses !== item.expenses ||
           itemsValues.date !== item.date ||
           itemsValues.tax !== item.tax ||
           itemsValues.colored !== item.colored ||
@@ -52,11 +51,8 @@ export default function EditItem({
         return (
           itemsValues.number !== item.number ||
           itemsValues.name !== item.name ||
-          itemsValues.tax !== item.tax ||
-          itemsValues.taxNumber !== item.taxNumber ||
           itemsValues.date !== item.date ||
           itemsValues.colored !== item.colored ||
-          itemsValues.paymentDate !== item.paymentDate ||
           itemsValues.totalAmount !== item.totalAmount
         );
 
@@ -224,10 +220,10 @@ export default function EditItem({
     setItemInChange(!itemInChange);
     setChangeStatus((prev) => {
       return {
-        editText: prev.editText === "עריכה" ? "אישור" : "עריכה",
-        delete: prev.editText === "עריכה" ? "ביטול" : "מחיקה",
-        disabled: prev.editText === "עריכה" ? false : true,
-        itemId: prev.editText === "עריכה" ? item._id : null,
+        editText: prev.editText === "تعديل" ? "موافق" : "تعديل",
+        delete: prev.editText === "تعديل" ? "إلغاء" : "حذف",
+        disabled: prev.editText === "تعديل" ? false : true,
+        itemId: prev.editText === "تعديل" ? item._id : null,
       };
     });
   };

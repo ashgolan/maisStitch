@@ -102,19 +102,16 @@ export default function Navbar() {
           to={"/expenses"}
           style={{ backgroundColor: "rgb(185, 201, 45)", fontSize: "1.2rem" }}
         >
-          <button
-            name="expenses"
-            style={{ fontWeight: "bold", color: "white" }}
-          >
-            הוצאות
+          <button name="expenses" style={{ color: "white" }}>
+            مشتريات
           </button>
         </NavLink>
         <NavLink
           to={"/sales"}
           style={{ backgroundColor: "rgb(185, 201, 45)", fontSize: "1.2rem" }}
         >
-          <button name="sales" style={{ fontWeight: "bold", color: "white" }}>
-            עבודה
+          <button name="sales" style={{ color: "white" }}>
+            مبيعات
           </button>
         </NavLink>
       </div>

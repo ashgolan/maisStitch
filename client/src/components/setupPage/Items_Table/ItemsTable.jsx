@@ -16,8 +16,8 @@ export default function ItemsTable({
   report,
 }) {
   const [changeStatus, setChangeStatus] = useState({
-    editText: "עריכה",
-    delete: "מחיקה",
+    editText: "تعديل",
+    delete: "حذف",
     disabled: true,
     itemId: null,
   });
@@ -57,14 +57,14 @@ export default function ItemsTable({
   }, [item._id, myData]);
 
   const allTaxSelect = [
-    { value: true, label: "כן" },
-    { value: false, label: "לא" },
+    { value: true, label: "نعم" },
+    { value: false, label: "لا" },
   ].map((item) => {
     return { value: item.value, label: item.label };
   });
 
   const customStyles = {
-    control: (base, state) => ({
+    control: (base) => ({
       ...base,
       textAlign: "right",
       backgroundColor: "rgb(48, 45, 45)",
@@ -101,8 +101,17 @@ export default function ItemsTable({
       };
     },
   };
+
+  const allSelectedTypesData = [
+    { value: "1", label: "فوطه" },
+    { value: "2", label: "طاره" },
+    { value: "3", label: "محرمه" },
+    { value: "4", label: "لوغو" },
+  ].map((item) => {
+    return { value: item.value, label: item.label };
+  });
   const allSelectData = selectData?.map((item) => {
-    return { value: item._id, label: item.name };
+    return { value: item._id, label: item.clientName };
   });
   const changeColorOfClientName = (e) => {
     setItemsValues((prev) => {
@@ -140,7 +149,7 @@ export default function ItemsTable({
               id="clientName"
               className="input_show_item"
               style={{
-                width: report?.type ? "23%" : "13%",
+                width: report?.type || collReq === "/clients" ? "23%" : "13%",
                 color: itemsValues.colored ? "rgb(255, 71, 46)" : "whitesmoke",
               }}
               disabled={changeStatus.disabled}
@@ -152,50 +161,56 @@ export default function ItemsTable({
               }}
             ></input>
           ))}
-        {(collReq === "/sales" || collReq === "/expenses") && (
+        {collReq === "/sales" && (
           <Select
             options={allSelectData}
             className="input_show_item select-product-head "
-            placeholder={itemsValues?.name ? itemsValues.name : "בחר מוצר"}
+            placeholder={
+              itemsValues?.clientName ? itemsValues.clientName : "בחר חקלאי"
+            }
+            isDisabled={changeStatus.disabled}
+            styles={customStyles}
+            menuPlacement="auto"
+            required
+            value={itemsValues.clientName}
+            onChange={(e) => {
+              setItemsValues((prev) => {
+                return {
+                  ...prev,
+                  name: "",
+                  clientName: e.label,
+                };
+              });
+            }}
+          ></Select>
+        )}
+
+        {collReq === "/sales" && (
+          <Select
+            options={allSelectedTypesData}
+            className="input_show_item select-product "
+            placeholder={itemsValues?.name ? itemsValues.name : "اختر منتج"}
             isDisabled={changeStatus.disabled}
             styles={customStyles}
             menuPlacement="auto"
             required
             defaultValue={itemsValues.name}
             onChange={(e) => {
-              const filteredItem = selectData.find(
-                (item) => item._id === e.value
-              );
               setItemsValues((prev) => {
                 return {
                   ...prev,
                   name: e.label,
-                  number:
-                    collReq === "/expenses" ? prev.number : filteredItem.number,
-                  sale:
-                    +filteredItem.number -
-                    (+prev.discount * +filteredItem.number) / 100,
-                  totalAmount: !(collReq === "/sales")
-                    ? +prev.quantity
-                      ? +filteredItem.number * +prev.quantity
-                      : collReq === "/inventories"
-                      ? +filteredItem.number
-                      : prev.number
-                    : (+filteredItem.number -
-                        (+filteredItem.number * +prev.discount) / 100) *
-                        +prev.quantity -
-                      +prev.expenses,
                 };
               });
             }}
           ></Select>
         )}
-        {collReq !== "/sales" && collReq !== "/expenses" && (
+        {collReq !== "/sales" && (
           <input
             id="name"
             className="input_show_item"
             style={{
-              width: report?.type ? "45%" : "18%",
+              width: "18%",
             }}
             disabled={changeStatus.disabled}
             value={itemsValues.name}
@@ -220,26 +235,24 @@ export default function ItemsTable({
             }}
             onDoubleClick={changeColorOfClientName}
             disabled={changeStatus.disabled}
-            value={
-              collReq === "/contacts"
-                ? "0" + itemsValues.number
-                : itemsValues.number
-            }
+            value={itemsValues.number}
             onChange={(e) => {
               setItemsValues((prev) => {
                 return {
                   ...prev,
                   number: e.target.value,
                   sale:
-                    +e.target.value - (+prev.discount * +e.target.value) / 100,
+                    collReq === "/sales"
+                      ? +e.target.value -
+                        (+prev.discount * +e.target.value) / 100
+                      : 0,
                   totalAmount: !(collReq === "/sales")
                     ? +prev.quantity
                       ? +e.target.value * +prev.quantity
                       : +e.target.value
                     : (+e.target.value -
                         (+e.target.value * +prev.discount) / 100) *
-                        +prev.quantity -
-                      +prev.expenses,
+                      +prev.quantity,
                 };
               });
             }}
@@ -249,7 +262,7 @@ export default function ItemsTable({
           <input
             id="discount"
             className="input_show_item"
-            style={{ width: "4%" }}
+            style={{ width: "5%" }}
             disabled={changeStatus.disabled}
             value={itemsValues.discount}
             onChange={(e) => {
@@ -260,8 +273,7 @@ export default function ItemsTable({
                   sale: +prev.number - (+prev.number * +e.target.value) / 100,
                   totalAmount:
                     (+prev.number - (+prev.number * +e.target.value) / 100) *
-                      +prev.quantity -
-                    +prev.expenses,
+                    +prev.quantity,
                 };
               });
             }}
@@ -271,9 +283,9 @@ export default function ItemsTable({
           <input
             id="sale"
             className="input_show_item"
-            style={{ width: "4%" }}
+            style={{ width: "6%" }}
             disabled
-            defaultValue={itemsValues.sale}
+            value={itemsValues.sale}
           ></input>
         )}
         {collReq === "/sales" && (
@@ -299,27 +311,6 @@ export default function ItemsTable({
             }}
           ></input>
         )}
-        {collReq === "/sales" && (
-          <input
-            id="expenses"
-            className="input_show_item"
-            style={{ width: "5%" }}
-            disabled={changeStatus.disabled}
-            value={itemsValues.expenses}
-            onChange={(e) => {
-              setItemsValues((prev) => {
-                return {
-                  ...prev,
-                  expenses: e.target.value,
-                  totalAmount:
-                    (+prev.number - (+prev.number * +prev.discount) / 100) *
-                      +prev.quantity -
-                    +e.target.value,
-                };
-              });
-            }}
-          ></input>
-        )}
 
         {collReq === "/sales" && (
           <Select
@@ -327,7 +318,7 @@ export default function ItemsTable({
             options={allTaxSelect}
             className="input_show_item select-category"
             isDisabled={changeStatus.disabled}
-            placeholder={itemsValues?.tax === true ? "כן" : "לא"}
+            placeholder={itemsValues?.tax === true ? "نعم" : "لا"}
             defaultValue={itemsValues.tax}
             onChange={(e) => {
               setItemsValues((prev) => {
@@ -338,21 +329,6 @@ export default function ItemsTable({
             styles={customStyles}
             required
           />
-        )}
-        {collReq === "/expenses" && (
-          <input
-            id="date"
-            type="date"
-            className="input_show_item"
-            style={{ width: report?.type ? "15%" : "13%" }}
-            disabled={changeStatus.disabled}
-            value={itemsValues.paymentDate}
-            onChange={(e) => {
-              setItemsValues((prev) => {
-                return { ...prev, paymentDate: e.target.value };
-              });
-            }}
-          ></input>
         )}
 
         {(collReq === "/expenses" || collReq === "/sales") && (

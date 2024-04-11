@@ -32,9 +32,9 @@ export default function SetupPage({
     btnVisible: true,
     formVisible: false,
   });
+  const [clients, setClients] = useState([]);
+
   const [kindOfSort, setKindOfSort] = useState("date");
-  const [inventories, setInventories] = useState([]);
-  const [providers, setProviders] = useState([]);
   const getTotals = () => {
     let total = 0;
 
@@ -57,6 +57,10 @@ export default function SetupPage({
         setFetchingData(fetchingData.expensesData);
       }
     } else {
+      if (collReq === "/sales") {
+        const { data: clientsData } = await Api.get("/clients", { headers });
+        setClients(clientsData);
+      }
       const { data } = await Api.get(collReq, { headers });
 
       if (report === undefined) {
@@ -235,9 +239,9 @@ export default function SetupPage({
           }}
         >
           {"  "}
-          {`סכום כל התנועות : `}
+          {`المجموع : `}
           {getTotals().toFixed(2)}
-          {` ש"ח `}
+          {` شيكل `}
         </label>
       )}
       <form
@@ -259,7 +263,7 @@ export default function SetupPage({
               setKindOfSort(() => "date");
             }}
           >
-            תאריך
+            تاريخ
           </button>
         )}
 
@@ -268,39 +272,35 @@ export default function SetupPage({
             id="clientName"
             className="input_show_item head"
             style={{
-              width: report?.type ? "23%" : "13%",
+              width: "18%",
             }}
             onClick={(e) => {
               e.preventDefault();
               setKindOfSort(() => "clientName");
             }}
           >
-            קליינט
+            زبون
           </button>
         )}
         <button
           id="name"
           className="input_show_item head"
           style={{
-            maxWidth:
-              collReq === "/sales" || collReq === "/expenses"
-                ? "18%"
-                : report?.type
-                ? "45%"
-                : "18%",
-            minWidth:
-              collReq === "/sales" || collReq === "/expenses"
-                ? "18%"
-                : report?.type
-                ? "45%"
-                : "18%",
+            maxWidth: "15%",
+            // : collReq === "/sales" || collReq === "/expenses"
+            // ? "18%"
+            // : "30%"
+            minWidth: "15%",
+            // : collReq === "/sales" || collReq === "/expenses"
+            // ? "18%"
+            // : "30%",
           }}
           onClick={(e) => {
             e.preventDefault();
             setKindOfSort(() => "name");
           }}
         >
-          {collReq === "/clients" ? "מגורים" : "מוצר"}
+          {collReq === "/clients" ? "الإقامه" : "المنتج"}
         </button>
         {collReq !== "/clients" && (
           <button
@@ -308,9 +308,9 @@ export default function SetupPage({
             className="input_show_item head"
             style={{
               width:
-                collReq === "/sales" || collReq === "/workersExpenses"
+                collReq === "/sales"
                   ? "5%"
-                  : collReq === "/contacts" || collReq === "/expenses"
+                  : collReq === "/expenses"
                   ? "10%"
                   : "15%",
             }}
@@ -320,34 +320,34 @@ export default function SetupPage({
             }}
           >
             {collReq === "/inventories" || collReq === "/sales"
-              ? "מחיר"
-              : "סכום"}
+              ? "الثمن"
+              : "المبلغ"}
           </button>
         )}
         {collReq === "/sales" && (
           <button
             id="discount"
             className="input_show_item head"
-            style={{ width: "4%" }}
+            style={{ width: "5%" }}
             onClick={(e) => {
               e.preventDefault();
               setKindOfSort(() => "discount");
             }}
           >
-            הנחה
+            تخفيض
           </button>
         )}
         {collReq === "/sales" && (
           <button
             id="sale"
             className="input_show_item head"
-            style={{ width: "4%" }}
+            style={{ width: "6%" }}
             onClick={(e) => {
               e.preventDefault();
               setKindOfSort(() => "sale");
             }}
           >
-            מ.נטו
+            المتبقي
           </button>
         )}
         {collReq === "/sales" && (
@@ -360,7 +360,7 @@ export default function SetupPage({
               setKindOfSort(() => "quantity");
             }}
           >
-            {collReq === "/sales" ? 'כ.מ"ר' : "כמות"}
+            {"الكميه"}
           </button>
         )}
         {collReq === "/sales" && (
@@ -373,7 +373,7 @@ export default function SetupPage({
               setKindOfSort(() => "tax");
             }}
           >
-            שולם
+            تم الدفع
           </button>
         )}
         {(collReq === "/expenses" || collReq === "/sales") && (
@@ -393,7 +393,7 @@ export default function SetupPage({
               setKindOfSort(() => "totalAmount");
             }}
           >
-            סה"כ
+            المجموع
           </button>
         )}
 
@@ -405,7 +405,7 @@ export default function SetupPage({
             }}
             className="edit_btn"
           >
-            edit
+            تعديل
           </button>
         )}
         {!report?.type && (
@@ -416,7 +416,7 @@ export default function SetupPage({
             }}
             className="delete_btn"
           >
-            delete
+            حذف
           </button>
         )}
       </form>
@@ -430,9 +430,9 @@ export default function SetupPage({
               itemInChange={itemInChange}
               setItemInChange={setItemInChange}
               myData={fetchedData}
+              selectData={clients}
               setItemIsUpdated={setItemIsUpdated}
               collReq={collReq}
-              selectData={collReq === "/expenses" ? providers : inventories}
               report={report}
             />
           );
@@ -448,7 +448,7 @@ export default function SetupPage({
           setInventoryData={setFetchingData}
           setItemIsUpdated={setItemIsUpdated}
           collReq={collReq}
-          selectData={collReq === "/expenses" ? providers : inventories}
+          selectData={clients}
         ></AddItem>
       )}
     </div>

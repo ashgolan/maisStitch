@@ -25,18 +25,18 @@ function ChartHomepage() {
   const navigate = useNavigate();
   const months = [
     { value: null, label: null },
-    { value: "01", label: "ינואר" },
-    { value: "02", label: "פברואר" },
-    { value: "03", label: "מרץ" },
-    { value: "04", label: "אפריל" },
-    { value: "05", label: "מאי" },
-    { value: "06", label: "יוני" },
-    { value: "07", label: "יולי" },
-    { value: "08", label: "אוגוסט" },
-    { value: "09", label: "ספטמבר" },
-    { value: "10", label: "אוקטובר" },
-    { value: "11", label: "נובמבר" },
-    { value: "12", label: "דיצמבר" },
+    { value: "01", label: "كانون ثان" },
+    { value: "02", label: "شباط" },
+    { value: "03", label: "آذار" },
+    { value: "04", label: "نيسان" },
+    { value: "05", label: "أيار" },
+    { value: "06", label: "حزيران" },
+    { value: "07", label: "تموز" },
+    { value: "08", label: "آب" },
+    { value: "09", label: "أيلول" },
+    { value: "10", label: "تشرين أول" },
+    { value: "11", label: "تشرين ثان" },
+    { value: "12", label: "كانون أول" },
   ];
   const allMonths = months.map((item) => {
     return { value: item.value, label: item.label };
@@ -53,10 +53,10 @@ function ChartHomepage() {
     };
   });
   const allTypes = [
-    { type: "/expenses", name: "דוח הוצאות" },
-    { type: "/sales", name: "דוח הכנסות" },
-    { type: "expensesCharts", name: "תרשים הוצאות" },
-    { type: "salesCharts", name: "תרשים הכנסות" },
+    { type: "/expenses", name: "تقرير مدفوعات" },
+    { type: "/sales", name: "تقرير مبيعات" },
+    { type: "expensesCharts", name: "مخطط مدفوعات" },
+    { type: "salesCharts", name: "مخطط مبيعات" },
   ].map((item) => {
     return { value: item.type, label: item.name };
   });
@@ -179,7 +179,7 @@ function ChartHomepage() {
           <Select
             className="select-chart"
             options={allTypes}
-            placeholder="בחר סוג דוח"
+            placeholder="نوع التقرير"
             onChange={(e) => {
               setUpdatedReport((prev) => !prev);
               setReport((prev) => {
@@ -199,8 +199,9 @@ function ChartHomepage() {
           ></Select>{" "}
           {report.type && (
             <Select
+            className="select-yearMonth"
               options={allYears.filter((option) => option.value !== null)}
-              placeholder="בחר שנה"
+              placeholder="سنه"
               onChange={(selectedOption) => {
                 setReport((prev) => {
                   setUpdatedReport((prev) => !prev);
@@ -223,8 +224,9 @@ function ChartHomepage() {
           )}
           {report.type && report.year && (
             <Select
+            className="select-yearMonth"
               options={allMonths.filter((option) => option.value !== null)}
-              placeholder="בחר חודש"
+              placeholder="شهر"
               onChange={(selectedOption) => {
                 setReport((prev) => {
                   setUpdatedReport((prev) => !prev);
@@ -247,8 +249,9 @@ function ChartHomepage() {
           )}
           {(report?.type === "/sales" || report?.type === "salesCharts") && (
             <Select
+              className="select-client"
               options={allSelectData.filter((option) => option.value !== null)}
-              placeholder="בחר קליינט"
+              placeholder="زبون"
               onChange={(selectedOption) => {
                 setReport((prev) => {
                   setUpdatedReport((prev) => !prev);

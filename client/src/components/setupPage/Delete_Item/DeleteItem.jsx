@@ -90,13 +90,13 @@ export default function DeleteItem({
 
     setChangeStatus((prev) => {
       return {
-        editText: prev.delete === "מחיקה" ? "ביטול" : "עריכה",
-        delete: prev.delete === "מחיקה" ? "אישור" : "מחיקה",
+        editText: prev.delete === "حذف" ? "إلغاء" : "تعديل",
+        delete: prev.delete === "حذف" ? "موافق" : "حذف",
         disabled: true,
-        itemId: prev.delete === "מחיקה" ? item._id : null,
+        itemId: prev.delete === "حذف" ? item._id : null,
       };
     });
-    if (changeStatus.delete === "ביטול") {
+    if (changeStatus.delete === "إلغاء") {
       setItemsValues(item);
       setFetchingStatus((prev) => {
         return {
@@ -106,7 +106,7 @@ export default function DeleteItem({
         };
       });
     }
-    if (changeStatus.delete === "אישור") {
+    if (changeStatus.delete === "موافق") {
       deleteData();
     }
     setItemInChange(!itemInChange);
