@@ -61,8 +61,8 @@
     min-width: 9%;
   }
   .select-product {
-    max-width: 17%;
-    min-width: 17%;
+    max-width: 15%;
+    min-width: 15%;
   }
 }
 
@@ -70,7 +70,7 @@
   background-color: transparent;
   border-color: transparent;
   border-bottom: 2px solid rgb(96, 228, 124);
-  color: rgb(157, 186, 240);
+  color: rgb(41, 76, 139);
   font-weight: bold;
   font-size: 1rem;
   padding-bottom: 0;
