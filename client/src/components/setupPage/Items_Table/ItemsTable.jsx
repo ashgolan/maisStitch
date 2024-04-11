@@ -62,44 +62,42 @@ export default function ItemsTable({
   ].map((item) => {
     return { value: item.value, label: item.label };
   });
-
   const customStyles = {
-    control: (base) => ({
+    control: (base, state) => ({
       ...base,
       textAlign: "right",
-      backgroundColor: "rgb(48, 45, 45)",
       border: "none",
+      backgroundColor: "white",
       whiteSpace: "nowrap",
       overflow: "hidden",
       textOverflow: "ellipsis",
     }),
     dropdownIndicator: (base) => ({
       ...base,
-      display: report?.type !== undefined && "none",
+      // display: report?.type !== undefined && "none",
+      display: "none",
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      padding: "10px", // Adjust padding as needed
+      background: state.isFocused ? "gold" : "rgb#ffd900",
+      color: state.isFocused ? "rgb(48, 45, 45)" : "inherit",
+    }),
+    singleValue: (provided, styles, state) => ({
+      ...provided,
+      ...styles,
+      color: state?.isSelected ? "red" : "black",
+
+      margin: "0",
     }),
     placeholder: (provided) => ({
       ...provided,
-      color:
-        collReq === "/expenses" && itemsValues.colored
-          ? "rgb(255, 71, 46)"
-          : "whitesmoke",
+      color: itemsValues.colored ? "rgb(255, 71, 46)" : "black",
     }),
     menu: (base) => ({
       ...base,
       textAlign: "center",
-      backgroundColor: "rgb(48, 45, 45)",
     }),
-    option: (provided, state) => ({
-      ...provided,
-      background: state.isFocused ? "gold" : "rgb(48, 45, 45)",
-      color: state.isFocused ? "rgb(48, 45, 45)" : "inherit",
-    }),
-    singleValue: (styles, state) => {
-      return {
-        ...styles,
-        color: state.isSelected ? "red" : "whitesmoke",
-      };
-    },
   };
 
   const allSelectedTypesData = [
@@ -149,8 +147,8 @@ export default function ItemsTable({
               id="clientName"
               className="input_show_item"
               style={{
-                width: report?.type || collReq === "/clients" ? "23%" : "13%",
-                color: itemsValues.colored ? "rgb(255, 71, 46)" : "whitesmoke",
+                width: "18%",
+                color: itemsValues.colored ? "rgb(255, 71, 46)" : "black",
               }}
               disabled={changeStatus.disabled}
               value={itemsValues.clientName}
@@ -210,7 +208,7 @@ export default function ItemsTable({
             id="name"
             className="input_show_item"
             style={{
-              width: "18%",
+              width: "15%",
             }}
             disabled={changeStatus.disabled}
             value={itemsValues.name}

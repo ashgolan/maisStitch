@@ -196,7 +196,7 @@ export default function EditItem({
   const editHandler = (e) => {
     e.preventDefault();
 
-    if (changeStatus.editText === "אישור") {
+    if (changeStatus.editText === "موافق") {
       const haveAnEmptyValues = checkInputsValues();
       if (haveAnEmptyValues) {
         setFetchingStatus((prev) => {

@@ -22,7 +22,7 @@ function Calender() {
   const [events, setEvents] = useState([]);
   const [showLogo, setShowLogo] = useState("none");
   const [calenderTitle, setCalenderTitle] = useState(
-    "יומן סידור העבודה החודשי"
+    "دفتر المذكرات والملاحظات"
   );
   const navigate = useNavigate();
   const [fetchingStatus, setFetchingStatus] = useContext(FetchingStatus);
@@ -222,10 +222,10 @@ function Calender() {
         return { ...prev, status: true, loading: true };
       });
 
-      if (window.confirm("האם למחוק את ההערה ?") === true) {
+      if (window.confirm("هل أنت متأكد من حذف الملاحظه ?") === true) {
         await Api.delete(`/events/${eventId}`, { headers });
       } else {
-        throw Error("מחיקה ההערה בוטלה");
+        throw Error("تم إلغاء الحذف");
       }
       const updatedEvents = events.filter((event) => event._id !== eventId);
       setEvents(updatedEvents);

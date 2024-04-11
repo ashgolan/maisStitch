@@ -305,7 +305,6 @@ export default function AddItem({
             name="name"
             id="name"
             required
-            autoFocus={true}
             className="add_item"
             style={{ width: "35%" }}
             placeholder={collReq === "/expenses" ? "المنتج" : "الإقامه"}
