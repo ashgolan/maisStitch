@@ -40,7 +40,7 @@ export default function Login({ setLoggedIn }) {
         };
       });
       if (data === "user not found!!")
-        throw Error("שם המשתמש או הסיסמא לא נכונים");
+        throw Error("שם המשתמש או הסיסמא לא اسم المستخدم أو كلمة المرور خاطئه");
       setTokens(data.accessToken, data.refreshToken);
       setLoggedIn(true);
       navigate("homepage/");
@@ -80,7 +80,7 @@ export default function Login({ setLoggedIn }) {
                 style={{ borderRadius: "1rem" }}
               >
                 <div className="card-body p-3 text-center">
-                  <h3 className="mb-3">כניסה</h3>
+                  <h3 className="mb-3">تسجيل الدخول</h3>
 
                   <div className="form-outline mb-1">
                     <input
@@ -96,7 +96,7 @@ export default function Login({ setLoggedIn }) {
                       className="form-control form-control-lg"
                     />
                     <label className="form-label" htmlFor="typeEmailX-2">
-                      דואר אלקטרוני
+                      البريد الالكتروني
                     </label>
                   </div>
 
@@ -113,7 +113,7 @@ export default function Login({ setLoggedIn }) {
                       className="form-control form-control-lg"
                     />
                     <label className="form-label" htmlFor="typePasswordX-1">
-                      סיסמא
+                      كلمة المور
                     </label>
                   </div>
                   <div>
@@ -127,7 +127,7 @@ export default function Login({ setLoggedIn }) {
                       }}
                       type=""
                     >
-                      כניסה
+                      دخول
                     </button>
                   </div>
                   <label style={{ color: "brown" }}>{validEmail}</label>
