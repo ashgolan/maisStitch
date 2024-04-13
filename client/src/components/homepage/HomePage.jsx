@@ -29,7 +29,7 @@ export default function HomePage() {
         <h1 style={{ fontSize: "4rem", fontWeight: "bold" }}>מערכת לניהול</h1>
         <div className="welcome">
           <p style={{ color: "#f36710" }}>Mais Stitch</p>
-          <p style={{ color: "#98ca3b" }}>עבודות תפירות</p>
+          <p style={{ color: "#98ca3b" }}>עבודות רקמה</p>
         </div>
 
         {!getAccessToken() && (

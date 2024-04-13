@@ -123,7 +123,7 @@ export default function ItemsTable({
         className="Item_form"
         key={`form${item.id}`}
         style={{
-          width: collReq === "/inventories" ? "60%" : "95%",
+          width: "95%",
         }}
       >
         {(collReq === "/expenses" || collReq === "/sales") && (

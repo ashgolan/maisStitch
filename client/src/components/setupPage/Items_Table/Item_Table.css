@@ -1,8 +1,3 @@
-@media screen and (max-width: 1000px) {
-  .Item_form {
-    width: 95% !important;
-  }
-}
 .Item_form {
   width: 95%;
   padding: 0.3% 0;
@@ -53,6 +48,7 @@
   .Item_form {
     width: 90%;
   }
+
   .desc-style {
     width: 20%;
   }

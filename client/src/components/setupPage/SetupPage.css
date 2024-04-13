@@ -2,11 +2,21 @@
   width: 3rem;
   padding: 0.5%;
 }
-
+.sum-of-totals {
+  width: 30%;
+  margin: auto;
+  text-align: center;
+  font-weight: bold;
+  color: brown;
+  border-bottom: 2px solid orange;
+}
 @media screen and (max-width: 1000px) {
   .imageHead {
     width: 3rem;
     padding: 1.2%;
+  }
+  .sum-of-totals {
+    width: 60%;
   }
 }
 

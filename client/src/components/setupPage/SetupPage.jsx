@@ -227,17 +227,7 @@ export default function SetupPage({
   return (
     <div className="inventory-container">
       {getTotals() > 0 && (
-        <label
-          htmlFor=""
-          style={{
-            width: "30%",
-            margin: "auto",
-            textAlign: "center",
-            fontWeight: "bold",
-            color: "brown",
-            borderBottom: "2px solid orange",
-          }}
-        >
+        <label className="sum-of-totals" htmlFor="">
           {"  "}
           {`المجموع : `}
           {getTotals().toFixed(2)}
