@@ -40,7 +40,9 @@ export default function Login({ setLoggedIn }) {
         };
       });
       if (data === "user not found!!")
-        throw Error("שם המשתמש או הסיסמא לא اسم المستخدم أو كلمة المرور خاطئه");
+        throw Error("שם המשתמש או הסיסמא לא נכונים");
+      if (data?.adminUser?.isBlocked)
+        throw Error("תקופת הניסיון החינמית עבור משתמש זה הסתיימה");
       setTokens(data.accessToken, data.refreshToken);
       setLoggedIn(true);
       navigate("homepage/");
@@ -70,7 +72,7 @@ export default function Login({ setLoggedIn }) {
   };
 
   return (
-    <section className="vh-50">
+    <form onSubmit={checklogin} className="vh-50">
       {!fetchingStatus.loading && (
         <div className="container py-5 h-50">
           <div className="row d-flex justify-content-center align-items-center h-50">
@@ -80,7 +82,7 @@ export default function Login({ setLoggedIn }) {
                 style={{ borderRadius: "1rem" }}
               >
                 <div className="card-body p-3 text-center">
-                  <h3 className="mb-3">تسجيل الدخول</h3>
+                  <h3 className="mb-3">כניסה</h3>
 
                   <div className="form-outline mb-1">
                     <input
@@ -96,7 +98,7 @@ export default function Login({ setLoggedIn }) {
                       className="form-control form-control-lg"
                     />
                     <label className="form-label" htmlFor="typeEmailX-2">
-                      البريد الالكتروني
+                      דואר אלקטרוני
                     </label>
                   </div>
 
@@ -113,21 +115,20 @@ export default function Login({ setLoggedIn }) {
                       className="form-control form-control-lg"
                     />
                     <label className="form-label" htmlFor="typePasswordX-1">
-                      كلمة المور
+                      סיסמא
                     </label>
                   </div>
                   <div>
                     <button
-                      onClick={checklogin}
+                      type="submit"
                       style={{
                         padding: "1.5% 40%",
                         border: "none",
                         borderRadius: "1rem",
                         backgroundColor: "gold",
                       }}
-                      type=""
                     >
-                      دخول
+                      כניסה
                     </button>
                   </div>
                   <label style={{ color: "brown" }}>{validEmail}</label>
@@ -137,6 +138,6 @@ export default function Login({ setLoggedIn }) {
           </div>
         </div>
       )}
-    </section>
+    </form>
   );
 }
