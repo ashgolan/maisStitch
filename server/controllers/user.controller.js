@@ -7,7 +7,6 @@ export const userControllers = {
   createUser: async (req, res) => {
     try {
       let user;
-      console.log(req.body);
       if (!req.body.key || req.body.key !== process.env.REACT_APP_ADMIN)
         throw new Error("לא הוכנס מפתח הוספת או שינוי נתונים");
       if (req.body.role === "Admin") {

@@ -26,7 +26,7 @@ export default function Login({ setLoggedIn }) {
     e.preventDefault();
     try {
       if (!validator.isEmail(login.email))
-        throw new Error("כתובת המייל או הסיסמא שהזנת אינן חוקיות");
+        throw new Error("كتابة البريد الالكتروني او الباسوورد غير قانونيه");
       setFetchingStatus((prev) => {
         return { ...prev, status: true, loading: true };
       });
@@ -40,9 +40,10 @@ export default function Login({ setLoggedIn }) {
         };
       });
       if (data === "user not found!!")
-        throw Error("שם המשתמש או הסיסמא לא נכונים");
+        throw Error("البريد الالكتروني او الباسوورد غير صحيحان");
       if (data?.adminUser?.isBlocked)
-        throw Error("תקופת הניסיון החינמית עבור משתמש זה הסתיימה");
+        throw Error("الفتره الزمنيه المحدده لهذا المستخدم قد انتهت");
+      console.log(data);
       setTokens(data.accessToken, data.refreshToken);
       setLoggedIn(true);
       navigate("homepage/");
@@ -82,7 +83,7 @@ export default function Login({ setLoggedIn }) {
                 style={{ borderRadius: "1rem" }}
               >
                 <div className="card-body p-3 text-center">
-                  <h3 className="mb-3">כניסה</h3>
+                  <h3 className="mb-3">تسجيل الدخول</h3>
 
                   <div className="form-outline mb-1">
                     <input
@@ -98,7 +99,7 @@ export default function Login({ setLoggedIn }) {
                       className="form-control form-control-lg"
                     />
                     <label className="form-label" htmlFor="typeEmailX-2">
-                      דואר אלקטרוני
+                      البريد الالكتروني
                     </label>
                   </div>
 
@@ -115,7 +116,7 @@ export default function Login({ setLoggedIn }) {
                       className="form-control form-control-lg"
                     />
                     <label className="form-label" htmlFor="typePasswordX-1">
-                      סיסמא
+                      الباسوورد
                     </label>
                   </div>
                   <div>
@@ -128,7 +129,7 @@ export default function Login({ setLoggedIn }) {
                         backgroundColor: "gold",
                       }}
                     >
-                      כניסה
+                      دخول
                     </button>
                   </div>
                   <label style={{ color: "brown" }}>{validEmail}</label>
