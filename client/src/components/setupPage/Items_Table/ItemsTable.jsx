@@ -104,6 +104,10 @@ export default function ItemsTable({
     { value: "2", label: "طاره" },
     { value: "3", label: "محرمه" },
     { value: "4", label: "لوغو" },
+    { value: "5", label: "آخر" },
+    { value: "6", label: "فوطه + محرمه" },
+    { value: "7", label: "طاره + محرمه" },
+    { value: "8", label: "فوطه + طاره + محرمه" },
   ].map((item) => {
     return { value: item.value, label: item.label };
   });
