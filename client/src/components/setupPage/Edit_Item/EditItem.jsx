@@ -23,7 +23,13 @@ export default function EditItem({
     const thisProps = getCollectionProps(collReq);
     if (!thisProps) return;
     for (let i in itemsValues) {
-      if (itemsValues[i] === "" && thisProps.includes(i)) return true;
+      if (
+        itemsValues[i] === "" &&
+        i !== "discount" &&
+        i !== "sale" &&
+        thisProps.includes(i)
+      )
+        return true;
     }
   };
   const isInputsChanged = () => {

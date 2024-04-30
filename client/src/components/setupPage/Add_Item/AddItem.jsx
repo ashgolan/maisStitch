@@ -13,6 +13,7 @@ export default function AddItem({
   collReq,
   selectData,
 }) {
+  const [isAlreadyExist, setIsAlreadyExist] = useState(false);
   const date = new Date();
   const year = date.getFullYear();
   const month =
@@ -178,7 +179,18 @@ export default function AddItem({
 
   const confirmAddingItem = (e) => {
     e.preventDefault();
-
+    const checkIfAlreadyExist = selectData.some(
+      (client) =>
+        client.clientName === itemsValues.clientName &&
+        client.name === itemsValues.name
+    );
+    if (checkIfAlreadyExist) {
+      setIsAlreadyExist(true);
+      setTimeout(() => {
+        setIsAlreadyExist(false);
+      }, 1500);
+      return;
+    }
     setaddItemToggle({ btnVisible: true, formVisible: false });
     addItem();
   };
@@ -197,6 +209,7 @@ export default function AddItem({
     { value: "2", label: "طاره" },
     { value: "3", label: "محرمه" },
     { value: "4", label: "لوغو" },
+    { value: "5", label: "آخر" },
   ].map((item) => {
     return { value: item.value, label: item.label };
   });
@@ -361,7 +374,7 @@ export default function AddItem({
               setItemsValues((prev) => {
                 return {
                   ...prev,
-                  discount: +e.target.value,
+                  discount: e.target.value,
                   sale: +prev.number - (+prev.number * +e.target.value) / 100,
                   totalAmount:
                     (+prev.number - (+prev.number * +e.target.value) / 100) *
@@ -441,15 +454,37 @@ export default function AddItem({
       <div
         style={{
           display: "flex",
-          flexDirection: "row-reverse",
+
+          flexDirection: "column-reverse",
           justifyContent: "center",
           marginTop: "1%",
         }}
       >
-        <input className="confirm_addItem" type="submit" value="موافق"></input>
-        <button className="remove_addItem" onClick={cancelAddingItem}>
-          إلغاء
-        </button>
+        <div style={{ textAlign: "center" }}>
+          <input
+            className="confirm_addItem"
+            type="submit"
+            value="موافق"
+          ></input>
+          <button className="remove_addItem" onClick={cancelAddingItem}>
+            إلغاء
+          </button>
+        </div>
+        {isAlreadyExist && (
+          <label
+            style={{
+              textAlign: "center",
+              color: "brown",
+              fontWeight: "bold",
+              backgroundColor: "lightyellow",
+              width: "50%",
+              margin: "auto",
+            }}
+            htmlFor=""
+          >
+            هذا الاسم قد تم تسجيله سابقاً
+          </label>
+        )}
       </div>
     </form>
   );

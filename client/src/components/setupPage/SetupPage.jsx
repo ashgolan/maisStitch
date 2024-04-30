@@ -57,24 +57,24 @@ export default function SetupPage({
         setFetchingData(fetchingData.expensesData);
       }
     } else {
-      if (collReq === "/sales") {
+      if (collReq === "/sales" || collReq === "/clients") {
         const { data: clientsData } = await Api.get("/clients", { headers });
         setClients(clientsData);
       }
       const { data } = await Api.get(collReq, { headers });
 
       if (report === undefined) {
-        if (collReq === "/sales" || collReq === "/expenses") {
-          setFetchingData(
-            data.filter(
-              (item) =>
-                new Date(item.date).getFullYear() === year ||
-                item.colored === true
-            )
-          );
-        } else {
-          setFetchingData(data);
-        }
+        // if (collReq === "/sales" || collReq === "/expenses") {
+        //   setFetchingData(
+        //     data.filter(
+        //       (item) =>
+        //         new Date(item.date).getFullYear() === year ||
+        //         item.colored === true
+        //     )
+        //   );
+        // } else {
+        setFetchingData(data);
+        // }
       } else {
         setFetchingData(data);
       }

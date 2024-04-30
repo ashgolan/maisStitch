@@ -26,8 +26,7 @@ export default function ItemsTable({
     clientName: "",
     number: "",
     discount: "",
-    sale: "",
-    expenses: "",
+    sale: 0,
     quantity: "",
     colored: false,
     date: "",
@@ -262,7 +261,7 @@ export default function ItemsTable({
             className="input_show_item"
             style={{ width: "5%" }}
             disabled={changeStatus.disabled}
-            value={itemsValues.discount}
+            value={itemsValues.discount === "" ? "0" : itemsValues.discount}
             onChange={(e) => {
               setItemsValues((prev) => {
                 return {
@@ -283,7 +282,7 @@ export default function ItemsTable({
             className="input_show_item"
             style={{ width: "6%" }}
             disabled
-            value={itemsValues.sale}
+            value={+itemsValues.sale}
           ></input>
         )}
         {collReq === "/sales" && (
@@ -342,7 +341,9 @@ export default function ItemsTable({
                   : "6%",
             }}
             disabled
-            value={+itemsValues.totalAmount.toFixed(2)}
+            value={
+              +itemsValues?.totalAmount && +itemsValues?.totalAmount.toFixed(2)
+            }
           ></input>
         )}
         {!report?.type && (
