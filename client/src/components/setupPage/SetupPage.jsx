@@ -44,11 +44,58 @@ export default function SetupPage({
 
     return total;
   };
+  // const sendRequest = async (token) => {
+  //   const headers = { Authorization: token };
+  //   setFetchingStatus((prev) => {
+  //     return { ...prev, status: true, loading: true };
+  //   });
+
+  //   if (isFetching) {
+  //     if (collReq === "/sales") {
+  //       setFetchingData(fetchingData.salesData);
+  //     } else if (collReq === "/expenses") {
+  //       setFetchingData(fetchingData.expensesData);
+  //     }
+  //   } else {
+  //     if (collReq === "/sales" || collReq === "/clients") {
+  //       const { data: clientsData } = await Api.get("/clients", { headers });
+  //       setClients(clientsData);
+  //     }
+  //     const { data } = await Api.get(collReq, { headers });
+
+  //     if (report === undefined) {
+  //       if (collReq === "/sales" || collReq === "/expenses") {
+  //         setFetchingData(
+  //           data.filter(
+  //             (item) =>
+  //               new Date(item.date).getFullYear() >2023 ||
+  //               item.colored === true
+  //           )
+  //         );
+  //       } else {
+  //       setFetchingData(data);
+  //       }
+  //     } else {
+  //       setFetchingData(data);
+  //     }
+  //   }
+  //   setFetchingStatus((prev) => {
+  //     return {
+  //       ...prev,
+  //       status: false,
+  //       loading: false,
+  //     };
+  //   });
+  // };
   const sendRequest = async (token) => {
     const headers = { Authorization: token };
-    setFetchingStatus((prev) => {
-      return { ...prev, status: true, loading: true };
-    });
+    setFetchingStatus((prev) => ({
+      ...prev,
+      status: true,
+      loading: true,
+    }));
+
+    const fetchRequests = [];
 
     if (isFetching) {
       if (collReq === "/sales") {
@@ -58,35 +105,41 @@ export default function SetupPage({
       }
     } else {
       if (collReq === "/sales" || collReq === "/clients") {
-        const { data: clientsData } = await Api.get("/clients", { headers });
-        setClients(clientsData);
+        fetchRequests.push(Api.get("/clients", { headers }));
       }
-      const { data } = await Api.get(collReq, { headers });
-
-      if (report === undefined) {
-        // if (collReq === "/sales" || collReq === "/expenses") {
-        //   setFetchingData(
-        //     data.filter(
-        //       (item) =>
-        //         new Date(item.date).getFullYear() === year ||
-        //         item.colored === true
-        //     )
-        //   );
-        // } else {
-        setFetchingData(data);
-        // }
-      } else {
-        setFetchingData(data);
-      }
+      fetchRequests.push(Api.get(collReq, { headers }));
     }
-    setFetchingStatus((prev) => {
-      return {
+
+    try {
+      const results = await Promise.all(fetchRequests);
+      results.forEach((result, index) => {
+        if (index === 0 && collReq === "/sales" || collReq === "/clients") {
+          setClients(result.data);
+        }
+        const data = result.data;
+
+        if (!report) {
+          setFetchingData(
+            data.filter(
+              (item) =>
+                new Date(item.date).getFullYear() > 2023 ||
+                item.colored === true
+            )
+          );
+        } else {
+          setFetchingData(data);
+        }
+      });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setFetchingStatus((prev) => ({
         ...prev,
         status: false,
         loading: false,
-      };
-    });
-  };
+      }));
+    }
+};
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -233,6 +286,20 @@ export default function SetupPage({
           {getTotals().toFixed(2)}
           {` شيكل `}
         </label>
+      )}
+      {!addItemToggle.formVisible &&
+        !report?.type &&
+        !fetchingStatus.loading && (
+          <AddItemBtn setaddItemToggle={setaddItemToggle}></AddItemBtn>
+        )}
+      {!addItemToggle.btnVisible && !report?.type && (
+        <AddItem
+          setaddItemToggle={setaddItemToggle}
+          setInventoryData={setFetchingData}
+          setItemIsUpdated={setItemIsUpdated}
+          collReq={collReq}
+          selectData={clients}
+        ></AddItem>
       )}
       <form
         className="Item_form"
@@ -427,20 +494,7 @@ export default function SetupPage({
             />
           );
         })}
-      {!addItemToggle.formVisible &&
-        !report?.type &&
-        !fetchingStatus.loading && (
-          <AddItemBtn setaddItemToggle={setaddItemToggle}></AddItemBtn>
-        )}
-      {!addItemToggle.btnVisible && !report?.type && (
-        <AddItem
-          setaddItemToggle={setaddItemToggle}
-          setInventoryData={setFetchingData}
-          setItemIsUpdated={setItemIsUpdated}
-          collReq={collReq}
-          selectData={clients}
-        ></AddItem>
-      )}
+
     </div>
   );
 }
