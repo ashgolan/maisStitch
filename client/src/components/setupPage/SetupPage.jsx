@@ -21,7 +21,7 @@ export default function SetupPage({
 }) {
   const date = new Date();
   const year = date.getFullYear();
-
+  
   const navigate = useNavigate();
   // eslint-disable-next-line
   const [fetchedData, setFetchingData] = useState([]);
@@ -88,58 +88,68 @@ export default function SetupPage({
   //   });
   // };
   const sendRequest = async (token) => {
-    const headers = { Authorization: token };
+  const headers = { Authorization: token };
+  setFetchingStatus((prev) => ({
+    ...prev,
+    status: true,
+    loading: true,
+  }));
+
+  if (isFetching) {
+    if (collReq === "/sales") {
+      setFetchingData(fetchingData.salesData);
+    } else if (collReq === "/expenses") {
+      setFetchingData(fetchingData.expensesData);
+    }
+
     setFetchingStatus((prev) => ({
       ...prev,
-      status: true,
-      loading: true,
+      status: false,
+      loading: false,
     }));
+    return;
+  }
 
-    const fetchRequests = [];
+  const fetchRequests = [];
+  const shouldFetchClients = collReq === "/sales" || collReq === "/clients";
 
-    if (isFetching) {
-      if (collReq === "/sales") {
-        setFetchingData(fetchingData.salesData);
-      } else if (collReq === "/expenses") {
-        setFetchingData(fetchingData.expensesData);
+  if (shouldFetchClients) {
+    fetchRequests.push(Api.get("/clients", { headers }));
+  }
+  fetchRequests.push(Api.get(collReq, { headers }));
+
+  try {
+    const results = await Promise.all(fetchRequests);
+
+    results.forEach((result, index) => {
+      const data = result.data;
+
+      if (index === 0 && shouldFetchClients) {
+        setClients(data);
+        return; // ה־clients תמיד ראשון
       }
-    } else {
-      if (collReq === "/sales" || collReq === "/clients") {
-        fetchRequests.push(Api.get("/clients", { headers }));
-      }
-      fetchRequests.push(Api.get(collReq, { headers }));
-    }
 
-    try {
-      const results = await Promise.all(fetchRequests);
-      results.forEach((result, index) => {
-        if (index === 0 && collReq === "/sales" || collReq === "/clients") {
-          setClients(result.data);
-        }
-        const data = result.data;
+      const shouldFilter = !report && collReq !== "/clients";
+      const filteredData = shouldFilter
+        ? data.filter(
+            (item) =>
+              new Date(item.date).getFullYear() === year || item.colored === true
+          )
+        : data;
 
-        if (!report) {
-          setFetchingData(
-            data.filter(
-              (item) =>
-                new Date(item.date).getFullYear() > 2023 ||
-                item.colored === true
-            )
-          );
-        } else {
-          setFetchingData(data);
-        }
-      });
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    } finally {
-      setFetchingStatus((prev) => ({
-        ...prev,
-        status: false,
-        loading: false,
-      }));
-    }
+      setFetchingData(filteredData);
+    });
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  } finally {
+    setFetchingStatus((prev) => ({
+      ...prev,
+      status: false,
+      loading: false,
+    }));
+  }
 };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -237,6 +247,8 @@ export default function SetupPage({
     }
   };
   const sortedInventory = (kindOfSort) => {
+    
+    
     switch (kindOfSort) {
       case "number":
         return fetchedData?.sort(
