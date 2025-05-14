@@ -130,6 +130,16 @@ export default function ItemsTable({
           width: "95%",
         }}
       >
+        <label
+            id="colored"
+            className={itemsValues?.colored ? "inner" : "notInner"}
+            disabled={changeStatus.disabled}
+            onDoubleClick={changeColorOfClientName}
+            style={{
+              pointerEvents: changeStatus.disabled ? "none" : "auto", // Disable clicks when disabled
+              cursor: changeStatus.disabled ? "not-allowed" : "pointer", // Change cursor to indicate it's disabled
+            }}
+          />
         {(collReq === "/expenses" || collReq === "/sales") && (
           <input
             id="date"
@@ -235,7 +245,6 @@ export default function ItemsTable({
                   ? "10%"
                   : "15%",
             }}
-            onDoubleClick={changeColorOfClientName}
             disabled={changeStatus.disabled}
             value={itemsValues.number}
             onChange={(e) => {
