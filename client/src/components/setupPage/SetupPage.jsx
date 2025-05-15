@@ -322,6 +322,11 @@ export default function SetupPage({
               : "95%",
         }}
       >
+              <label
+          id="colored"
+          className={"notInner"}
+          style={{ visibility: "hidden" }}
+        />
         {(collReq === "/expenses" || collReq === "/sales") && (
           <button
             id="date"
